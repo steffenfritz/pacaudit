@@ -59,7 +59,7 @@ func compare(m []issue, locpkglist []string) {
 	fmt.Println("\n" + strconv.Itoa(counter) + " vulnerable package(s) installed.")
 }
 
-// an generic error check
+// a generic error check
 func e(err error) {
 
 	if err != nil {
@@ -94,9 +94,8 @@ func readDBPath() string {
 	var pkg_path string
 
 	f, err := os.Open("/etc/pacman.conf")
-	if err != nil {
-		log.Fatal(err)
-	}
+
+	e(err)
 
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
