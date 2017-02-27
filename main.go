@@ -5,6 +5,7 @@ package main
 import (
 	"bufio"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -16,6 +17,10 @@ import (
 
 // source url
 const url string = "https://security.archlinux.org/vulnerable/json"
+
+// flags
+var nagios = flag.Bool("n", false, "run pacaudit as nagios plugin. If run in this mode it returns OK, WARNING or CRITICAL.")
+var verbose = flag.Bool("v", false, "run pacaudit in verbose mode. This prints the severity and all related CVE.")
 
 // issue struct.
 type issue struct {
@@ -31,32 +36,50 @@ type issue struct {
 	Advisories []string `json:"advisories"`
 }
 
+type output struct {
+	Issues   string
+	Severity string
+	CVE      []string
+}
+
 // main function
 func main() {
+	flag.Parse()
 	compare(parse(fetchrecent()), readDBContent(readDBPath()))
 }
 
 // compare installed package list with vulnerable package list
 func compare(m []issue, locpkglist []string) {
-	counter := 0
+	otpt := make(map[string]output)
 	for _, entry := range m {
 		for _, ipkgname := range entry.Packages {
 			for _, lpkgname := range locpkglist {
 				if strings.HasPrefix(lpkgname, ipkgname) {
-					counter += 1
-					fmt.Println("\n" + ipkgname + " is vulnerable:")
-					fmt.Println("Issue:    " + entry.Itype)
-					fmt.Println("Severity: " + entry.Severity)
-					fmt.Println("CVE:")
+					var tmpcve []string
 					for _, cve := range entry.Issues {
-						fmt.Println(cve)
+						tmpcve = append(tmpcve, cve)
+					}
+
+					if _, exists := otpt[ipkgname]; exists {
+
+						tmpcveold := otpt[ipkgname].CVE
+						for _, el := range tmpcve {
+							tmpcveold = append(tmpcveold, el)
+						}
+						otpt[ipkgname].CVE = tmpcveold
+					} else {
+						var tmpout output
+						tmpout.Issues = entry.Itype
+						tmpout.Severity = entry.Severity
+						tmpout.CVE = tmpcve
+						otpt[ipkgname] = tmpout
 					}
 				}
 			}
 		}
 	}
-
-	fmt.Println("\n" + strconv.Itoa(counter) + " vulnerable package(s) installed.")
+	fmt.Println("\n" + strconv.Itoa(len(otpt)) + " vulnerable package(s) installed.")
+	fmt.Println(otpt)
 }
 
 // a generic error check
