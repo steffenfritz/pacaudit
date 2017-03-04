@@ -50,36 +50,48 @@ func main() {
 
 // compare installed package list with vulnerable package list
 func compare(m []issue, locpkglist []string) {
-	otpt := make(map[string]output)
+	pkg_listed := make(map[string]bool)
+	sev_warning := false
+	sev_crit := false
+
 	for _, entry := range m {
 		for _, ipkgname := range entry.Packages {
 			for _, lpkgname := range locpkglist {
 				if strings.HasPrefix(lpkgname, ipkgname) {
-					var tmpcve []string
-					for _, cve := range entry.Issues {
-						tmpcve = append(tmpcve, cve)
+					pkg_listed[lpkgname] = true
+					if *verbose {
+						fmt.Println("\n+ + +\n" + ipkgname + " is vulnerable.")
+						fmt.Println("Severity: " + entry.Severity)
+						fmt.Println("\nCVE:")
+						for _, cve := range entry.Issues {
+							fmt.Println(cve)
+						}
 					}
 
-					if _, exists := otpt[ipkgname]; exists {
-
-						tmpcveold := otpt[ipkgname].CVE
-						for _, el := range tmpcve {
-							tmpcveold = append(tmpcveold, el)
+					if *nagios {
+						if (entry.Severity == "Low") || (entry.Severity == "Medium") {
+							sev_warning = true
+						} else if (entry.Severity == "High") || (entry.Severity == "Critical") {
+							sev_crit = true
 						}
-						otpt[ipkgname].CVE = tmpcveold
-					} else {
-						var tmpout output
-						tmpout.Issues = entry.Itype
-						tmpout.Severity = entry.Severity
-						tmpout.CVE = tmpcve
-						otpt[ipkgname] = tmpout
 					}
 				}
 			}
 		}
 	}
-	fmt.Println("\n" + strconv.Itoa(len(otpt)) + " vulnerable package(s) installed.")
-	fmt.Println(otpt)
+	if *nagios {
+		if sev_crit {
+			fmt.Println("Critical")
+			return
+		} else if sev_warning {
+			fmt.Println("Warning")
+			return
+		} else {
+			fmt.Println("OK")
+			return
+		}
+	}
+	fmt.Println("\n" + strconv.Itoa(len(pkg_listed)) + " vulnerable package(s) installed.")
 }
 
 // a generic error check
