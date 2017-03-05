@@ -20,7 +20,7 @@ pacaudit audits installed packages agains known vulnerabilities listed on https:
 
 2. pacaudit -v
     
-    prints all vulnerabl packages by name with CVE and the sum of all vulnerable packages
+    prints all vulnerable packages by name with CVE and the sum of all vulnerable packages
 
 
 3. pacaudit -n
