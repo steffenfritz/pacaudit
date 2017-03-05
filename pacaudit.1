@@ -7,10 +7,10 @@ pacaudit
 pacaudit checks installed packages against known vulnerabilities based on Arch CVE Monitoring Team data.
 
 .SH FLAGS
-pacaudit without flags prints the number of vulnerable packages installed.
+pacaudit without flags prints the names and the total number of vulnerable packages installed.
 
 .BR \-v\fR 
-    run pacaudit in verbose mode. This prints the severity and all related CVE.
+    run pacaudit in verbose mode. This prints the names, the total number of vulnerable packages, the severity and all related CVE.
 
 .BR \-n\fR 
     run pacaudit as nagios plugin. This prints OK, WARNING or CRITICAL.

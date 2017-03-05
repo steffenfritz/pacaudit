@@ -57,7 +57,7 @@ func compare(m []issue, locpkglist []string) {
 	for _, entry := range m {
 		for _, ipkgname := range entry.Packages {
 			for _, lpkgname := range locpkglist {
-				if strings.HasPrefix(lpkgname, ipkgname) {
+				if strings.HasPrefix(lpkgname, ipkgname+"-") {
 					pkg_listed[lpkgname] = true
 					if *verbose {
 						fmt.Println("\n+ + +\n" + ipkgname + " is vulnerable.")
@@ -66,6 +66,8 @@ func compare(m []issue, locpkglist []string) {
 						for _, cve := range entry.Issues {
 							fmt.Println(cve)
 						}
+					} else if !*nagios {
+						fmt.Println(ipkgname + " is vulnerable.")
 					}
 
 					if *nagios {
