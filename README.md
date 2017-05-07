@@ -3,7 +3,7 @@
 
 # pacaudit
 
-pacaudit audits installed packages agains known vulnerabilities listed on https://security.archlinux.org
+pacaudit audits installed packages on Arch Linux against known vulnerabilities listed on https://security.archlinux.org
 
 # Installation
 
@@ -20,7 +20,7 @@ pacaudit audits installed packages agains known vulnerabilities listed on https:
 
 2. pacaudit -v
     
-    prints all vulnerable packages by name with CVE and the sum of all vulnerable packages
+    prints all vulnerable packages by name, with CVE, severity and the sum of all vulnerable packages
 
 
 3. pacaudit -n
