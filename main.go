@@ -14,9 +14,6 @@ import (
 	"strconv"
 	"strings"
 	"text/tabwriter"
-
-	"github.com/pkg/profile"
-	//	"text/tabwriter"
 )
 
 // source url
@@ -48,7 +45,6 @@ type output struct {
 
 // main function
 func main() {
-	defer profile.Start(profile.CPUProfile).Stop()
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.AlignRight|tabwriter.Debug)
 	flag.Parse()
 	compare(parse(fetchrecent()), readDBContent(readDBPath()), w)
@@ -71,8 +67,6 @@ func compare(m []issue, locpkglist []string, w *tabwriter.Writer) {
 							cveTemp += "\n" + "\t" + "\t" + cve
 						}
 						fmt.Fprintln(w, lpkgname+"\t"+entry.Severity+"\t"+cveTemp)
-					} else if !*nagios {
-						fmt.Println(ipkgname + " is vulnerable.")
 					}
 
 					if *nagios {
@@ -97,6 +91,11 @@ func compare(m []issue, locpkglist []string, w *tabwriter.Writer) {
 		} else {
 			fmt.Println("OK")
 			return
+		}
+	}
+	if !*verbose {
+		for val := range pkgListed {
+			fmt.Println(val)
 		}
 	}
 	fmt.Println("\n" + strconv.Itoa(len(pkgListed)) + " vulnerable package(s) installed.")
