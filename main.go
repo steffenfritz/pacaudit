@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	. "github.com/logrusorgru/aurora"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -22,6 +23,7 @@ const url string = "https://security.archlinux.org/vulnerable/json"
 // flags
 var nagios = flag.Bool("n", false, "run pacaudit as nagios plugin. If run in this mode it returns OK, WARNING or CRITICAL.")
 var verbose = flag.Bool("v", false, "run pacaudit in verbose mode. This prints the severity and all related CVE.")
+var color = flag.Bool("c", false, "print results colorized when used with verbose flag.")
 
 // issue struct
 type issue struct {
@@ -66,7 +68,19 @@ func compare(m []issue, locpkglist []string, w *tabwriter.Writer) {
 						for _, cve := range entry.Issues[1:] {
 							cveTemp += "\n" + "\t" + "\t" + cve
 						}
-						fmt.Fprintln(w, lpkgname+"\t"+entry.Severity+"\t"+cveTemp)
+						if *color {
+							if entry.Severity == "Critical" {
+								fmt.Fprintln(w, Magenta(lpkgname+"\t"+entry.Severity+"\t"+cveTemp))
+							} else if entry.Severity == "High" {
+								fmt.Fprintln(w, Red(lpkgname+"\t"+entry.Severity+"\t"+cveTemp))
+							} else if entry.Severity == "Medium" {
+								fmt.Fprintln(w, Brown(lpkgname+"\t"+entry.Severity+"\t"+cveTemp))
+							} else {
+								fmt.Fprintln(w, lpkgname+"\t"+entry.Severity+"\t"+cveTemp)
+							}
+						} else {
+							fmt.Fprintln(w, lpkgname+"\t"+entry.Severity+"\t"+cveTemp)
+						}
 					}
 
 					if *nagios {
