@@ -25,4 +25,9 @@ pacaudit audits installed packages on Arch Linux against known vulnerabilities l
 
 3. pacaudit -n
     
-    returns "OK" if no vulnerable packages are installed, "WARNING" if no vulnerable package with severity HIGH or higher is installed and CRITICAL else.
+    returns "OK" if no vulnerable packages are installed, "WARNING" if no vulnerable package with severity HIGH or higher is installed and CRITICAL else
+
+    
+4. pacaudit -c
+    
+    print results colorized. Used with verbose (-v) flag
