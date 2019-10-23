@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	. "github.com/logrusorgru/aurora"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -15,10 +14,15 @@ import (
 	"strconv"
 	"strings"
 	"text/tabwriter"
+
+	. "github.com/logrusorgru/aurora"
 )
 
 // source url
 const url string = "https://security.archlinux.org/vulnerable/json"
+
+// version
+const version string = "v1.1.0"
 
 // flags
 var nagios = flag.Bool("n", false, "run pacaudit as nagios plugin. If run in this mode it returns OK, WARNING or CRITICAL.")
@@ -47,7 +51,21 @@ type output struct {
 
 // main function
 func main() {
-	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.AlignRight|tabwriter.Debug)
+	flag.Usage = func() {
+		fmt.Println(`		
+pacaudit v1.1.0 Copyright (C) 2017  Steffen Fritz
+
+This program comes with ABSOLUTELY NO WARRANTY
+This is free software, and you are welcome to redistribute it
+under certain conditions; GNU General Public License v3.0`)
+
+		fmt.Println()
+
+		flag.PrintDefaults()
+
+		fmt.Println()
+	}
+	w := tabwriter.NewWriter(os.Stdout, 1, 0, 1, ' ', tabwriter.Debug)
 	flag.Parse()
 	compare(parse(fetchrecent()), readDBContent(readDBPath()), w)
 }
@@ -66,7 +84,7 @@ func compare(m []issue, locpkglist []string, w *tabwriter.Writer) {
 					if *verbose {
 						cveTemp := entry.Issues[0]
 						for _, cve := range entry.Issues[1:] {
-							cveTemp += "\n" + "\t" + "\t" + cve
+							cveTemp += "\t" + cve
 						}
 						if *color {
 							if entry.Severity == "Critical" {
@@ -76,11 +94,12 @@ func compare(m []issue, locpkglist []string, w *tabwriter.Writer) {
 							} else if entry.Severity == "Medium" {
 								fmt.Fprintln(w, Brown(lpkgname+"\t"+entry.Severity+"\t"+cveTemp))
 							} else {
-								fmt.Fprintln(w, lpkgname+"\t"+entry.Severity+"\t"+cveTemp)
+								fmt.Fprintln(w, Green(lpkgname+"\t"+entry.Severity+"\t"+cveTemp))
 							}
 						} else {
 							fmt.Fprintln(w, lpkgname+"\t"+entry.Severity+"\t"+cveTemp)
 						}
+
 					}
 
 					if *nagios {
@@ -112,7 +131,7 @@ func compare(m []issue, locpkglist []string, w *tabwriter.Writer) {
 			fmt.Println(val)
 		}
 	}
-	fmt.Println("\n" + strconv.Itoa(len(pkgListed)) + " vulnerable package(s) installed.")
+	fmt.Println("\n" + strconv.Itoa(len(pkgListed)) + " vulnerable package(s) installed.\n")
 }
 
 // a generic error check
@@ -126,7 +145,13 @@ func e(err error) {
 // fetch recent vulnerable package list in json format
 func fetchrecent() []byte {
 
-	resp, err := http.Get(url)
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", url, nil)
+	e(err)
+
+	req.Header.Set("User-Agent", "Pacaudit/v1.1.0")
+
+	resp, err := client.Do(req)
 	e(err)
 	defer resp.Body.Close()
 

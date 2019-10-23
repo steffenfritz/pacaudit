@@ -1,5 +1,8 @@
 [![Build Status](https://travis-ci.org/steffenfritz/pacaudit.svg?branch=master)](https://travis-ci.org/steffenfritz/pacaudit)
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/steffenfritz/pacaudit)](https://goreportcard.com/report/github.com/steffenfritz/pacaudit)
+
+
 
 # pacaudit
 
@@ -7,9 +10,17 @@ pacaudit audits installed packages on Arch Linux against known vulnerabilities l
 
 # Installation
 
-1. gpg --recv-keys 7328F6E376924E4EE266381D3D9C808E038A615C
+Download the latest pre-build from [releases](https://github.com/steffenfritz/pacaudit/releases)
 
-2. yaourt -S pacaudit
+
+or install from AUR:
+
+
+    trizen -S pacaudit
+
+or
+
+    yaourt -S pacaudit 
 
 # Usage
 
@@ -31,3 +42,7 @@ pacaudit audits installed packages on Arch Linux against known vulnerabilities l
 4. pacaudit -c
     
     print results colorized. Used with verbose (-v) flag
+
+5. pacaudit -h
+   
+   print usage and info

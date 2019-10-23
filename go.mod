@@ -1,3 +1,5 @@
 module github.com/steffenfritz/pacaudit
 
-go 1.12
+go 1.13
+
+require github.com/logrusorgru/aurora v0.0.0-20191017060258-dc85c304c434
