@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/steffenfritz/pacaudit.svg?branch=master)](https://travis-ci.org/steffenfritz/pacaudit)
-
 [![Go Report Card](https://goreportcard.com/badge/github.com/steffenfritz/pacaudit)](https://goreportcard.com/report/github.com/steffenfritz/pacaudit)
-
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=steffenfritz_pacaudit&metric=alert_status)](https://sonarcloud.io/dashboard?id=steffenfritz_pacaudit)
 
 
 # pacaudit
@@ -9,12 +8,6 @@
 pacaudit audits installed packages on Arch Linux against known vulnerabilities listed on https://security.archlinux.org
 
 # Installation
-
-Download the latest pre-build from [releases](https://github.com/steffenfritz/pacaudit/releases)
-
-
-or install from AUR:
-
 
     trizen -S pacaudit
 
