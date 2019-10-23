@@ -1,11 +1,19 @@
 [![Build Status](https://travis-ci.org/steffenfritz/pacaudit.svg?branch=master)](https://travis-ci.org/steffenfritz/pacaudit)
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/steffenfritz/pacaudit)](https://goreportcard.com/report/github.com/steffenfritz/pacaudit)
+
+
 
 # pacaudit
 
 pacaudit audits installed packages on Arch Linux against known vulnerabilities listed on https://security.archlinux.org
 
 # Installation
+
+Download the latest pre-build from [releases](https://github.com/steffenfritz/pacaudit/releases)
+
+
+or install from AUR:
 
 
     trizen -S pacaudit
@@ -34,3 +42,7 @@ or
 4. pacaudit -c
     
     print results colorized. Used with verbose (-v) flag
+
+5. pacaudit -h
+   
+   print usage and info
