@@ -7,9 +7,12 @@ pacaudit audits installed packages on Arch Linux against known vulnerabilities l
 
 # Installation
 
-1. gpg --recv-keys 7328F6E376924E4EE266381D3D9C808E038A615C
 
-2. yaourt -S pacaudit
+    trizen -S pacaudit
+
+or
+
+    yaourt -S pacaudit 
 
 # Usage
 
