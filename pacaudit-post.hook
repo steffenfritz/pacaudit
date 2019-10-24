@@ -1,0 +1,12 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Depends = coreutils
+Depends = go
+When = PostTransaction
+Exec = if [ "$(/usr/bin/pacaudit -n)" != "OK" ]; then /usr/bin/pacaudit -n && /usr/bin/pacaudit -v; fi
