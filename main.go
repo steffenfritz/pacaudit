@@ -22,7 +22,7 @@ import (
 const url string = "https://security.archlinux.org/vulnerable/json"
 
 // version
-const version string = "v1.1.0"
+const version string = "v1.1.1"
 
 // flags
 var nagios = flag.Bool("n", false, "run pacaudit as nagios plugin. If run in this mode it returns OK, WARNING or CRITICAL.")
@@ -79,7 +79,7 @@ func compare(m []issue, locpkglist []string, w *tabwriter.Writer) {
 	for _, entry := range m {
 		for _, ipkgname := range entry.Packages {
 			for _, lpkgname := range locpkglist {
-				if strings.HasPrefix(lpkgname, ipkgname+"-") {
+				if strings.HasPrefix(lpkgname, ipkgname+"-"+entry.Affected) {
 					pkgListed[lpkgname] = true
 					if *verbose {
 						cveTemp := entry.Issues[0]
