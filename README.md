@@ -9,6 +9,10 @@ pacaudit audits installed packages on Arch Linux against known vulnerabilities l
 
 It ships with a preInstall hook for pacman that warns you if you try to install a vulnerable package.
 
+
+[![asciicast](https://asciinema.org/a/pR5FwmVpom2u2L34QhwNlGqL9.svg)](https://asciinema.org/a/pR5FwmVpom2u2L34QhwNlGqL9)
+
+
 # Installation
 
     trizen -S pacaudit
