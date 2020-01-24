@@ -38,9 +38,11 @@ pacaudit without flags prints the names and the total number of vulnerable packa
 .BR \-n\fR 
     run pacaudit as nagios plugin. This prints OK, WARNING or CRITICAL.
 
-
 .BR \-c\fR 
     Print results colorized when used with verbose flag.
+    
+.BR \-p PACKAGENAME\fR
+    Check if PACKAGENAME is listed as vulnerable. Useful for alpm-hooks.
 
 .SH AUTHOR
 Steffen Fritz <steffen@fritz.wtf>
