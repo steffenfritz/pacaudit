@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = *
+NeedsTargets
+
+[Action]
+When = PreTransaction
+Exec = pacaudit -p
