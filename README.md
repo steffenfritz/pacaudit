@@ -7,6 +7,8 @@
 
 pacaudit audits installed packages on Arch Linux against known vulnerabilities listed on https://security.archlinux.org
 
+It ships with a preInstall hook for pacman that warns you if you try to install a vulnerable package.
+
 # Installation
 
     trizen -S pacaudit
@@ -36,6 +38,10 @@ or
     
     print results colorized. Used with verbose (-v) flag
 
-5. pacaudit -h
+5. pacaudit -p PKGNAME
+    
+    check if PKGNAME is listed as vulnerable. Useful for alpk-hooks
+
+6. pacaudit -h
    
    print usage and info
