@@ -19,7 +19,7 @@ It ships with a preInstall hook for pacman that warns you if you try to install 
 
 or
 
-    or any other AUR helper
+    any other AUR helper
 
 # Usage
 
