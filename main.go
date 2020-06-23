@@ -49,6 +49,13 @@ under certain conditions; GNU General Public License v3.0`)
 		}
 		return
 	}
+	
+	var securityjson []byte
+	if len(*offlinesrc) != 0 {
+		securityjson := fetchlocal(*offlinesrc)    
+	} else {
+		securityjson := fetchrecent()
+	}
 
-	compare(parse(fetchrecent()), readDBContent(readDBPath()), w)
+	compare(parse(securityjson), readDBContent(readDBPath()), w)
 }
