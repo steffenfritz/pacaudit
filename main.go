@@ -13,7 +13,7 @@ import (
 const url string = "https://security.archlinux.org/vulnerable/json"
 
 // version
-const version string = "v1.1.1"
+const version string = "v1.1.3"
 
 // flags
 var nagios = flag.Bool("n", false, "run pacaudit as nagios plugin. If run in this mode it returns OK, WARNING or CRITICAL.")
@@ -25,7 +25,7 @@ var singlepkg = flag.String("p", "", "check if provided package name is listed a
 func main() {
 	flag.Usage = func() {
 		fmt.Println(`		
-pacaudit v1.1.1 Copyright (C) 2017-2020  Steffen Fritz
+pacaudit ` + version + ` Copyright (C) 2017-2020  Steffen Fritz
 
 This program comes with ABSOLUTELY NO WARRANTY
 This is free software, and you are welcome to redistribute it
