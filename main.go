@@ -25,7 +25,7 @@ var singlepkg = flag.String("p", "", "check if provided package name is listed a
 func main() {
 	flag.Usage = func() {
 		fmt.Println(`		
-pacaudit v1.1.1 Copyright (C) 2017-2020  Steffen Fritz
+pacaudit v1.1.2 Copyright (C) 2017-2020  Steffen Fritz
 
 This program comes with ABSOLUTELY NO WARRANTY
 This is free software, and you are welcome to redistribute it
