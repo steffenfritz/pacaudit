@@ -29,6 +29,14 @@ func fetchrecent() []byte {
 	return body
 }
 
+// fetchlocal reads a local json file
+func fetchlocal(infile string) []byte {
+	localsrc, err := ioutil.ReadFile(infile)
+	e(err)
+
+	return localsrc
+}
+
 // unmarshal json into list of type issue
 func parse(body []byte) []issue {
 
