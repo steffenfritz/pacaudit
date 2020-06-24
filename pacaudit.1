@@ -21,7 +21,7 @@
 .\" <http://www.gnu.org/licenses/>.
 .\" %%%LICENSE_END
 
-.TH pacaudit 1 "July 2020" "version 1.1.3"
+.TH pacaudit 1 "June 2020" "version 1.2.0"
 .SH NAME
 pacaudit
 .SH SYNOPSIS
@@ -43,6 +43,9 @@ pacaudit without flags prints the names and the total number of vulnerable packa
     
 .BR \-p\ PACKAGENAME\fR
     Check if PACKAGENAME is listed as vulnerable. Useful for alpm-hooks.
+
+.BR \-i\ PATH TO JSON FILE\fR
+    pacaudit uses the provided json file instead of the online list of vulnerable packages. Useful for hosts without web access.
 
 .SH AUTHOR
 Steffen Fritz <steffen@fritz.wtf>

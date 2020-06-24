@@ -14,7 +14,7 @@ func fetchrecent() []byte {
 	req, err := http.NewRequest("GET", url, nil)
 	e(err)
 
-	req.Header.Set("User-Agent", "Pacaudit/v1.1.3")
+	req.Header.Set("User-Agent", "Pacaudit/v1.2.0")
 
 	resp, err := client.Do(req)
 	e(err)
@@ -27,6 +27,14 @@ func fetchrecent() []byte {
 	body, err := ioutil.ReadAll(resp.Body)
 
 	return body
+}
+
+// fetchlocal reads a local json file
+func fetchlocal(infile string) []byte {
+	localsrc, err := ioutil.ReadFile(infile)
+	e(err)
+
+	return localsrc
 }
 
 // unmarshal json into list of type issue
