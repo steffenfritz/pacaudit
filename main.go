@@ -42,16 +42,6 @@ under certain conditions; GNU General Public License v3.0`)
 	w := tabwriter.NewWriter(os.Stdout, 1, 0, 1, ' ', tabwriter.Debug)
 	flag.Parse()
 
-	if len(*singlepkg) != 0 {
-		vulnerable := checksinglepkg(singlepkg)
-		if vulnerable {
-
-			fmt.Println("!!! WARNING: " + *singlepkg + " is vulnerable !!!")
-
-		}
-		return
-	}
-
 	var securityjson []byte
 	if len(*offlinesrc) != 0 {
 		securityjson = fetchlocal(*offlinesrc)
@@ -61,6 +51,16 @@ under certain conditions; GNU General Public License v3.0`)
 
 	if len(securityjson) == 0 {
 		log.Println("No usable input data for comparison. Quitting.")
+		return
+	}
+
+	if len(*singlepkg) != 0 {
+		vulnerable := checksinglepkg(singlepkg, securityjson)
+		if vulnerable {
+
+			fmt.Println("!!! WARNING: " + *singlepkg + " is vulnerable !!!")
+
+		}
 		return
 	}
 

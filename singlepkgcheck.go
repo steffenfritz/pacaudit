@@ -1,8 +1,8 @@
 package main
 
-func checksinglepkg(pkgname *string) bool {
+func checksinglepkg(pkgname *string, securityjson []byte) bool {
 
-	vulnpkg := parse(fetchrecent())
+	vulnpkg := parse(securityjson)
 	for _, v := range vulnpkg {
 		for _, p := range v.Packages {
 			if p == *pkgname {
