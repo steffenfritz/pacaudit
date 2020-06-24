@@ -5,6 +5,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"text/tabwriter"
 )
@@ -13,7 +14,7 @@ import (
 const url string = "https://security.archlinux.org/vulnerable/json"
 
 // version
-const version string = "v1.1.3"
+const version string = "v1.2.0"
 
 // flags
 var nagios = flag.Bool("n", false, "run pacaudit as nagios plugin. If run in this mode it returns OK, WARNING or CRITICAL.")
@@ -56,6 +57,11 @@ under certain conditions; GNU General Public License v3.0`)
 		securityjson = fetchlocal(*offlinesrc)
 	} else {
 		securityjson = fetchrecent()
+	}
+
+	if len(securityjson) == 0 {
+		log.Println("No usable input data for comparison. Quitting.")
+		return
 	}
 
 	compare(parse(securityjson), readDBContent(readDBPath()), w)

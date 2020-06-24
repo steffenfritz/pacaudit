@@ -14,7 +14,7 @@ func fetchrecent() []byte {
 	req, err := http.NewRequest("GET", url, nil)
 	e(err)
 
-	req.Header.Set("User-Agent", "Pacaudit/v1.1.3")
+	req.Header.Set("User-Agent", "Pacaudit/v1.2.0")
 
 	resp, err := client.Do(req)
 	e(err)
