@@ -46,7 +46,7 @@ or
     
     check if PKGNAME is listed as vulnerable. Useful for alpk-hooks
     
-6. pacaudit -i PATH TO JSON FILE
+6. pacaudit -i /PATH/TO/JSON/FILE
 
     pacaudit uses the provided json file instead of the online list of vulnerable packages. Useful for hosts without web access.
 
