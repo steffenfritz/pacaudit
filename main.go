@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"text/tabwriter"
+	"time"
 )
 
 // source url
@@ -22,6 +23,7 @@ var verbose = flag.Bool("v", false, "run pacaudit in verbose mode. This prints t
 var color = flag.Bool("c", false, "print results colorized when used with verbose flag.")
 var singlepkg = flag.String("p", "", "check if provided package name is listed as vulnerable. Useful for pacman hooks.")
 var offlinesrc = flag.String("i", "", "use an offline json file as input for comparison. Useful for hosts without web access.")
+var getofflinesrc = flag.Bool("d", false, "Download json file for offline comparison")
 
 // main function
 func main() {
@@ -41,6 +43,22 @@ under certain conditions; GNU General Public License v3.0`)
 	}
 	w := tabwriter.NewWriter(os.Stdout, 1, 0, 1, ' ', tabwriter.Debug)
 	flag.Parse()
+
+	if *getofflinesrc {
+
+		t := time.Now()
+		nowformatted := t.Format("2006-1-2-15:04:05")
+		filename := "archvuln_" + nowformatted + ".json"
+		err := getofflinejson(filename)
+		if err != nil {
+			log.Println("Could not fetch vulnerability information")
+			log.Fatal(err)
+		} else {
+
+			log.Println("Downloaded json file to " + filename)
+			return
+		}
+	}
 
 	var securityjson []byte
 	if len(*offlinesrc) != 0 {
