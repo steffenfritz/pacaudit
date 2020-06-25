@@ -50,6 +50,10 @@ or
 
     pacaudit uses the provided json file instead of the online list of vulnerable packages. Useful for hosts without web access.
 
-6. pacaudit -h
+7. pacaudit -d
+
+   download json file for offline comparison
+    
+8. pacaudit -h
    
    print usage and info
