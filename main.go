@@ -15,7 +15,7 @@ import (
 const url string = "https://security.archlinux.org/vulnerable/json"
 
 // version
-const version string = "v1.2.0"
+const version string = "v1.2.1"
 
 // flags
 var nagios = flag.Bool("n", false, "run pacaudit as nagios plugin. If run in this mode it returns OK, WARNING or CRITICAL.")
@@ -44,8 +44,8 @@ under certain conditions; GNU General Public License v3.0`)
 	w := tabwriter.NewWriter(os.Stdout, 1, 0, 1, ' ', tabwriter.Debug)
 	flag.Parse()
 
+	// download json file for local storage
 	if *getofflinesrc {
-
 		t := time.Now()
 		nowformatted := t.Format("2006-1-2-15:04:05")
 		filename := "archvuln_" + nowformatted + ".json"
@@ -60,6 +60,7 @@ under certain conditions; GNU General Public License v3.0`)
 		}
 	}
 
+	// decide if pacaudit uses online or offline vulnerability info
 	var securityjson []byte
 	if len(*offlinesrc) != 0 {
 		securityjson = fetchlocal(*offlinesrc)
@@ -67,11 +68,13 @@ under certain conditions; GNU General Public License v3.0`)
 		securityjson = fetchrecent()
 	}
 
+	// check if json file has at least content
 	if len(securityjson) == 0 {
 		log.Println("No usable input data for comparison. Quitting.")
 		return
 	}
 
+	// single check package
 	if len(*singlepkg) != 0 {
 		vulnerable := checksinglepkg(singlepkg, securityjson)
 		if vulnerable {
@@ -82,5 +85,6 @@ under certain conditions; GNU General Public License v3.0`)
 		return
 	}
 
+	// check installed packages against vuln info
 	compare(parse(securityjson), readDBContent(readDBPath()), w)
 }
