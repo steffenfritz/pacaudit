@@ -21,6 +21,10 @@ You can also check your local installation against offline vulnerability data. T
 
 or
 
+    yay pacaudit
+
+or
+
     any other AUR helper
 
 # Usage
