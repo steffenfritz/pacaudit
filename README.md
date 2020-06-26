@@ -9,6 +9,8 @@ pacaudit audits installed packages on Arch Linux against known vulnerabilities l
 
 It ships with a preInstall hook for pacman that warns you if you try to install a vulnerable package.
 
+You can also check your local installation against offline vulnerability data. This is useful for systems without web access. Check the man page for more information.
+
 
 [![asciicast](https://asciinema.org/a/pR5FwmVpom2u2L34QhwNlGqL9.svg)](https://asciinema.org/a/pR5FwmVpom2u2L34QhwNlGqL9)
 
