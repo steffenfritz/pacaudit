@@ -5,6 +5,10 @@
 
 # pacaudit
 
+_*PACAUDIT HAS A BUG THAT WILL NOT BE FIXED. PLEASE USE ARCH-AUDIT.*_
+
+
+
 pacaudit audits installed packages on Arch Linux against known vulnerabilities listed on https://security.archlinux.org
 
 It ships with a preInstall hook for pacman that warns you if you try to install a vulnerable package.
